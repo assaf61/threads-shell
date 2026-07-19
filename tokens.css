@@ -1,0 +1,100 @@
+/* ============================================================
+   NORDIC DESIGN SYSTEM v1.0
+   RTL-first · Optimistic-restrained · Hebrew base + multilingual
+   ============================================================ */
+
+:root {
+  /* ─── NEUTRALS ─────────────────────────── */
+  --bg:          #F7F6F4;   /* page background */
+  --surface:     #EDECEA;   /* cards, panels */
+  --surface-2:   #E2E0DC;   /* elevated surface */
+  --border:      #D4D1CC;   /* default border */
+  --border-s:    #B8B4AE;   /* strong border */
+
+  /* ─── TEXT ─────────────────────────────── */
+  --txt-s:       #8A8680;   /* tertiary / hints */
+  --txt-m:       #5A5754;   /* secondary */
+  --txt:         #2A2826;   /* body */
+  --txt-x:       #0F0F0E;   /* headings, max contrast */
+
+  /* ─── ACCENT · WARM SAND (default) ─────── */
+  --acc:         #C8A882;
+  --acc-l:       #EDE5D8;
+  --acc-d:       #A08660;
+
+  /* ─── SAGE GREEN ───────────────────────── */
+  --sage:        #8FA888;
+  --sage-l:      #DDE8DB;
+  --sage-d:      #4A7860;
+
+  /* ─── NORDIC SKY ───────────────────────── */
+  --sky:         #7BAEC4;
+  --sky-l:       #D8EAF2;
+  --sky-d:       #3A6880;
+
+  /* ─── FUNCTIONAL ───────────────────────── */
+  --ok:    #6BA888;   --ok-l:  #D8F0E4;   --ok-d:  #3A7858;
+  --wrn:   #D4A060;   --wrn-l: #FBF0DC;   --wrn-d: #8A6020;
+  --err:   #C4705A;   --err-l: #F8E4E0;   --err-d: #8A3828;
+
+  /* ─── TYPOGRAPHY ───────────────────────── */
+  --font-he:     'Heebo', sans-serif;            /* Hebrew / RTL body */
+  --font-en:     'DM Sans', sans-serif;          /* Latin / LTR body */
+  --font-di:     'Cormorant Garamond', serif;    /* Display only */
+
+  /* Weights: 300, 400, 500, 600, 700 */
+
+  /* ─── SPACING (4px base) ───────────────── */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ─── RADIUS ───────────────────────────── */
+  --r-s:   4px;     /* buttons, inputs */
+  --r-m:   8px;     /* small panels */
+  --r-l:  14px;    /* cards, hero */
+  --r-f: 999px;    /* pills, avatars */
+
+  /* ─── SHADOWS ──────────────────────────── */
+  --sh-s: 0 1px 4px rgba(0,0,0,.06);
+  --sh-m: 0 4px 16px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.04);
+  --sh-l: 0 12px 40px rgba(0,0,0,.10), 0 3px 8px rgba(0,0,0,.04);
+
+  /* ─── TRANSITION ───────────────────────── */
+  --t-fast: 120ms ease;
+  --t-base: 160ms ease;
+  --t-slow: 280ms ease;
+}
+
+/* RTL is the default. For LTR pages: <html dir="ltr" lang="en"> */
+html { direction: rtl; }
+html[dir="ltr"] { direction: ltr; }
+
+body {
+  font-family: var(--font-he);
+  background: var(--bg);
+  color: var(--txt);
+  font-size: 15px;
+  line-height: 1.6;
+}
+html[dir="ltr"] body { font-family: var(--font-en); }
+
+/* Type scale (use as utility classes or @apply equivalents) */
+.t-display-xl { font-size: 4rem;     font-weight: 300; letter-spacing: -0.04em; line-height: 1.0;  }
+.t-display-l  { font-size: 3rem;     font-weight: 300; letter-spacing: -0.03em; line-height: 1.1;  }
+.t-h1         { font-size: 2.25rem;  font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; }
+.t-h2         { font-size: 1.75rem;  font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; }
+.t-h3         { font-size: 1.375rem; font-weight: 500; line-height: 1.35; }
+.t-body-l     { font-size: 1.0625rem;font-weight: 400; line-height: 1.7;  }
+.t-body       { font-size: 1rem;     font-weight: 400; line-height: 1.6;  }
+.t-body-s     { font-size: 0.875rem; font-weight: 400; line-height: 1.65; }
+.t-caption    { font-size: 0.75rem;  font-weight: 400; line-height: 1.5;  color: var(--txt-s); }
+.t-overline   { font-size: 0.62rem;  font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--txt-s); }
