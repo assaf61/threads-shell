@@ -43,6 +43,25 @@ body {
 .chip.err  { background: var(--err-l); color: var(--err-d); border-color: transparent; }
 .chip.clickable { cursor: pointer; }
 
+/* not signed in: captures stay on the phone until sign-in */
+.auth-banner {
+  display: block;
+  margin: 0 var(--sp-4) var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border: 0;
+  border-radius: var(--r-m);
+  background: var(--wrn-l);
+  color: var(--wrn-d);
+  font-family: var(--font-he);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: start;
+  cursor: pointer;
+}
+.auth-banner.stuck { background: var(--err-l); color: var(--err-d); }
+.auth-banner[hidden] { display: none; }
+
 /* capture grid */
 .grid {
   flex: 1;

@@ -2,7 +2,7 @@
 // Uploads do NOT go through the SW — the IndexedDB queue in the page is the
 // single source of truth; the SW only stores incoming shares and serves the shell.
 
-const CACHE = "ti-shell-v5";
+const CACHE = "ti-shell-v6";
 const SHELL = [
   "./", "./index.html", "./app.css", "./tokens.css", "./manifest.webmanifest",
   "./app.js", "./auth.js", "./graph.js", "./queue.js", "./note.js", "./config.js",

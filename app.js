@@ -20,7 +20,7 @@ function toast(msg, kind = "ok") {
   el.textContent = msg;
   el.className = `toast show ${kind}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => (el.className = "toast"), 2600);
+  toastTimer = setTimeout(() => (el.className = "toast"), kind === "ok" ? 2600 : 5000);
 }
 
 // ---------- status strip ----------
@@ -31,16 +31,31 @@ async function refreshStatus() {
   qEl.classList.toggle("warn", n > 0);
 
   const aEl = $("chip-auth");
+  let signedIn = false;
   if (!Auth.configured()) {
     aEl.textContent = "חסר client_id";
     aEl.className = "chip err";
   } else if (Auth.account()) {
     const tok = await Auth.getToken();
+    signedIn = !!tok;
     aEl.textContent = tok ? "מחובר" : "התחבר מחדש";
     aEl.className = tok ? "chip ok" : "chip warn clickable";
   } else {
     aEl.textContent = "התחבר";
     aEl.className = "chip warn clickable";
+  }
+
+  // Without a token nothing leaves the phone, so say it in a banner, not only in a small chip.
+  // Offline is left to the queue chip: the queue drains by itself when the network returns.
+  const bEl = $("auth-banner");
+  if (Auth.configured() && !signedIn && navigator.onLine) {
+    bEl.textContent = n === 0 ? "לא מחובר: מה שתלכוד יישאר בטלפון. הקש כאן כדי להתחבר"
+      : n === 1 ? "לכידה אחת מחכה בטלפון ולא נשלחה. הקש כאן כדי להתחבר"
+      : `${n} לכידות מחכות בטלפון ולא נשלחו. הקש כאן כדי להתחבר`;
+    bEl.classList.toggle("stuck", n > 0);
+    bEl.hidden = false;
+  } else {
+    bEl.hidden = true;
   }
 }
 
@@ -99,7 +114,11 @@ async function sendCapture() {
   });
 
   closeSheet();
-  toast("נקלט ✓");
+  // "נקלט" only when the capture can actually leave the phone; otherwise say plainly where it is.
+  const tok = navigator.onLine ? await Auth.getToken().catch(() => null) : null;
+  if (tok) toast("נקלט ✓");
+  else if (!navigator.onLine) toast("נשמר בטלפון. יישלח כשיחזור האינטרנט", "warn");
+  else toast("נשמר בטלפון ולא נשלח. צריך להתחבר", "err");
   refreshStatus();
   drain();
 }
@@ -351,12 +370,15 @@ function bind() {
   $("sheet-send").onclick = sendCapture;
   $("sheet-cancel").onclick = closeSheet;
   $("backdrop").onclick = () => { closeSheet(); $("photo-menu").classList.remove("open"); };
-  $("chip-auth").onclick = () => {
+  const signInNow = () => {
     if (Auth.configured() && !Auth.account()) Auth.signIn();
     else if (Auth.configured()) Auth.getToken({ interactive: true });
   };
+  $("chip-auth").onclick = signInNow;
+  $("auth-banner").onclick = signInNow;
 
-  window.addEventListener("online", drain);
+  window.addEventListener("online", () => (refreshStatus(), drain()));
+  window.addEventListener("offline", refreshStatus);
   document.addEventListener("visibilitychange", () => !document.hidden && (refreshStatus(), drain()));
 }
 
