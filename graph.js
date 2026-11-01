@@ -59,6 +59,15 @@ export async function getFileBlob(token, relPath) {
   return res.blob();
 }
 
+// Read any file by its drive-root-relative path (domains.js reads alma-paths.json).
+// Returns null on 404 so the caller can fall back gracefully.
+export async function getDrivePathText(token, fullPath) {
+  const res = await fetch(`${GRAPH}/me/drive/root:/${encPath(fullPath)}:/content`, { headers: { Authorization: `Bearer ${token}` } });
+  if (res.status === 404) return null;
+  await checkResponse(res);
+  return res.text();
+}
+
 // Overwrite an existing note in place (used by the history editor).
 export async function putFileReplace(token, relPath, content) {
   const blob = new Blob([content], { type: "text/markdown" });

@@ -7,6 +7,9 @@ export const CONFIG = {
   // OneDrive for Business path, relative to drive root. ASCII filenames only (vault iron rule).
   inboxPath: "Alma Mind/Alma.Threads/00-raw/inbox",
   mediaSubfolder: "media",
+  // 01/11/2026: the capture triage reads its dome list from the machine's path map,
+  // behind sign-in, exactly like alma-home (domains.js).
+  pathsPath: "Alma Mind/Alma.R/00-system/alma-paths.json",
   // Simple PUT limit; above this we use an upload session (resumable).
   smallUploadLimit: 3.5 * 1024 * 1024,
 };

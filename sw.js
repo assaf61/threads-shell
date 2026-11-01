@@ -2,10 +2,13 @@
 // Uploads do NOT go through the SW — the IndexedDB queue in the page is the
 // single source of truth; the SW only stores incoming shares and serves the shell.
 
-const CACHE = "ti-shell-v6";
+// v7 (01/11/2026): the capture screen is alma-home's collector (capture.js, ui.js,
+// domains.js); note.js is no longer loaded. A share may carry several files.
+const CACHE = "ti-shell-v7";
 const SHELL = [
   "./", "./index.html", "./app.css", "./tokens.css", "./manifest.webmanifest",
-  "./app.js", "./auth.js", "./graph.js", "./queue.js", "./note.js", "./config.js",
+  "./app.js", "./auth.js", "./graph.js", "./queue.js", "./config.js",
+  "./capture.js", "./ui.js", "./domains.js",
   "./alma-enso.jpg",
   "./icons/icon-192.png", "./icons/icon-512.png",
 ];
@@ -55,17 +58,13 @@ async function storeShare(payload) {
 
 async function handleShare(request) {
   const form = await request.formData();
-  const file = form.get("media");
   const payload = {
     title: form.get("title") || "",
     text: form.get("text") || "",
     url: form.get("url") || "",
+    // every shared image/audio becomes a part of the same open envelope (capture.js)
+    files: form.getAll("media").filter((f) => f && f.size).map((f) => ({ blob: f, type: f.type, name: f.name })),
   };
-  if (file && file.size) {
-    payload.fileBlob = file;
-    payload.fileType = file.type;
-    payload.fileName = file.name;
-  }
   await storeShare(payload);
   const clients = await self.clients.matchAll({ type: "window" });
   clients.forEach((c) => c.postMessage("share-received"));
