@@ -1,59 +1,20 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl" class="theme-sky">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>חוטים - לכידה</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>חוטים</title>
   <meta name="theme-color" content="#7BAEC4">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3/lib/msal-browser.min.js" defer></script>
+  <!-- 08/11/2026: לוכד אחד בשני חלונות. הלוכד חי בבית עלמא, והכתובת הזו מעבירה לחלון "חוטים" שלו. -->
+  <meta http-equiv="refresh" content="0; url=https://assaf61.github.io/alma-home/?view=capture#capture">
+  <style>
+    body { margin: 0; padding: 32px 16px; background: #F7F6F4; color: #2B2B2B; font-family: Arial, sans-serif; font-size: 18px; line-height: 1.6; }
+    a { color: #3E6F86; }
+  </style>
 </head>
 <body>
-  <header class="strip">
-    <span class="brand">
-      <img class="brand-mark" src="alma-enso.jpg" alt="עלמא" decoding="async">
-      <span class="title">חוטים</span>
-    </span>
-    <span class="chips">
-      <span id="btn-history" class="chip clickable">אחרונים</span>
-      <span id="chip-queue" class="chip">…</span>
-      <span id="chip-auth" class="chip">…</span>
-    </span>
-  </header>
-  <button id="auth-banner" class="auth-banner" type="button" hidden></button>
-
-  <!-- 01/11/2026: capture.js draws the same capture screen as the tab in בית עלמא here -->
-  <main id="capture" class="content"></main>
-
-  <section id="history" class="panel" dir="rtl">
-    <div class="panel-head">
-      <span class="t-h3">חוטים אחרונים</span>
-      <button id="history-close" class="ghost">סגור</button>
-    </div>
-    <div id="history-list" class="history-list"></div>
-    <div id="history-detail" class="history-detail" hidden>
-      <div class="panel-head">
-        <span id="hd-name" class="t-caption"></span>
-        <button id="hd-back" class="ghost">חזרה</button>
-      </div>
-      <div id="hd-media" class="preview"></div>
-      <textarea id="hd-text" rows="10"></textarea>
-      <div class="sheet-actions">
-        <button id="hd-remark" class="ghost">+ הערה</button>
-        <button id="hd-save" class="primary">שמור שינויים</button>
-      </div>
-    </div>
-  </section>
-
-  <div id="toast" class="toast"></div>
-
-  <script type="module" src="app.js"></script>
+  <p>הלוכד עבר לבית עלמא. מעביר אותך לשם…</p>
+  <p><a href="https://assaf61.github.io/alma-home/?view=capture#capture">https://assaf61.github.io/alma-home/?view=capture#capture</a></p>
+  <script>location.replace("https://assaf61.github.io/alma-home/?view=capture#capture");</script>
 </body>
 </html>
