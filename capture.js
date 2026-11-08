@@ -7,7 +7,7 @@
 // What stays from this app (nothing it already took in is dropped):
 //   1. "שגר" and "נעל ותייק" go to the IndexedDB queue, not straight to Graph, so a
 //      capture never fails offline or signed out. A lock is queued after its note.
-//   2. Shared images/audio from the Android share menu enter the envelope as parts.
+//   2. Shared images/audio/video from the Android share menu enter the envelope as parts.
 //   3. A sixth button, הדבק, reads the clipboard into the envelope.
 // No demo mode here: this app has no sign-in gate to demo behind.
 //
@@ -45,7 +45,9 @@ function device() { return /Android/i.test(navigator.userAgent) ? "android" : "d
 
 function extFromMime(type, fallbackName = "") {
   const map = { "audio/webm": "webm", "audio/ogg": "ogg", "audio/mp4": "m4a", "audio/mpeg": "mp3",
-    "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif", "image/heic": "heic" };
+    "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif", "image/heic": "heic",
+    // 08/11/2026: a video shared from the phone (enrich.py VIDEO_EXT transcribes its speech)
+    "video/mp4": "mp4", "video/quicktime": "mov", "video/3gpp": "3gp", "video/x-matroska": "mkv" };
   const base = (type || "").split(";")[0].trim();
   if (map[base]) return map[base];
   const m = fallbackName.match(/\.([A-Za-z0-9]{1,5})$/);
@@ -163,6 +165,8 @@ function openCard(prefill = {}) {
         const img = mk("img", "cap-prev-img"); img.src = URL.createObjectURL(p.blob); row.appendChild(img);
       } else if ((p.type || "").startsWith("audio/")) {
         const au = mk("audio", "cap-prev-audio"); au.controls = true; au.src = URL.createObjectURL(p.blob); row.appendChild(au);
+      } else if ((p.type || "").startsWith("video/")) {
+        const vi = mk("video", "cap-prev-img"); vi.controls = true; vi.preload = "metadata"; vi.src = URL.createObjectURL(p.blob); row.appendChild(vi);
       }
       const rm = mk("button", "btn-ghost cap-part-rm", "הסר"); rm.type = "button";
       rm.addEventListener("click", () => { capOpen.media.splice(i, 1); touchDraft(); renderPrev(); });
@@ -328,7 +332,7 @@ function pickPhoto() {
   const back = mk("div", "cap-backdrop"); back.addEventListener("click", () => removeOverlay("cap-photo-wrap"));
   const menu = mk("div", "cap-menu");
   const cam = mk("input"); cam.type = "file"; cam.accept = "image/*"; cam.capture = "environment"; cam.hidden = true;
-  const gal = mk("input"); gal.type = "file"; gal.accept = "image/*"; gal.hidden = true;
+  const gal = mk("input"); gal.type = "file"; gal.accept = "image/*,video/*"; gal.hidden = true;
   const onPick = (e) => { const f = e.target.files && e.target.files[0]; removeOverlay("cap-photo-wrap"); if (f) addMedia(f, f.type, f.name); };
   cam.onchange = onPick; gal.onchange = onPick;
   const bCam = mk("button", "btn-primary", "📷 מצלמה"); bCam.type = "button"; bCam.addEventListener("click", () => cam.click());

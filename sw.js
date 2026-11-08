@@ -4,7 +4,8 @@
 
 // v7 (01/11/2026): the capture screen is alma-home's collector (capture.js, ui.js,
 // domains.js); note.js is no longer loaded. A share may carry several files.
-const CACHE = "ti-shell-v7";
+// v8 (08/11/2026): a shared video joins the envelope too (manifest accepts video/*).
+const CACHE = "ti-shell-v8";
 const SHELL = [
   "./", "./index.html", "./app.css", "./tokens.css", "./manifest.webmanifest",
   "./app.js", "./auth.js", "./graph.js", "./queue.js", "./config.js",
@@ -62,7 +63,7 @@ async function handleShare(request) {
     title: form.get("title") || "",
     text: form.get("text") || "",
     url: form.get("url") || "",
-    // every shared image/audio becomes a part of the same open envelope (capture.js)
+    // every shared image/audio/video becomes a part of the same open envelope (capture.js)
     files: form.getAll("media").filter((f) => f && f.size).map((f) => ({ blob: f, type: f.type, name: f.name })),
   };
   await storeShare(payload);

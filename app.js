@@ -146,7 +146,11 @@ async function openDetail(name) {
     detail = { name, frontmatter, body };
     $("hd-text").value = body.trim();
     const mediaMatch = frontmatter.match(/^media:\s*(\S+)/m);
-    if (mediaMatch) {
+    // 08/11/2026: a shared video is not downloaded again just to show the history; its name is enough.
+    if (mediaMatch && /\.(mp4|mov|3gp|mkv)$/i.test(mediaMatch[1])) {
+      const p = document.createElement("p"); p.className = "hint"; p.textContent = "🎬 סרטון: " + mediaMatch[1];
+      $("hd-media").appendChild(p);
+    } else if (mediaMatch) {
       const rel = mediaMatch[1];
       const blob = await getFileBlob(token, rel);
       const url = URL.createObjectURL(blob);
